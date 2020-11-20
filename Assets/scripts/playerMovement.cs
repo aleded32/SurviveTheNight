@@ -23,6 +23,23 @@ public class playerMovement : MonoBehaviour
     void Update()
     {
 
+        if (transform.position.x < 20)
+        {
+            transform.position = new Vector3(20, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.z < 20)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 20);
+        }
+        else if (transform.position.x > 110)
+        {
+            transform.position = new Vector3(110, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.z > 110)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 110);
+        }
+
         cameraPos();
         torchPos();
 
@@ -47,7 +64,7 @@ public class playerMovement : MonoBehaviour
         {
             if (isTorchOn)
             {
-                torchObj.GetComponent<Light>().intensity = 1.5f;
+                torchObj.GetComponent<Light>().intensity = 2f;
                 isTorchOn = false;
             }
             else if(!isTorchOn)
