@@ -23,9 +23,9 @@ TagManager:
   - 
   - 
   - post Processing
-  - 
-  - 
-  - 
+  - enemy
+  - gameManager
+  - player
   - 
   - 
   - 

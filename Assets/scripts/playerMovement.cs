@@ -16,6 +16,8 @@ public class playerMovement : MonoBehaviour
     {
         MinY = -45;
         MaxY = 45;
+
+        transform.position = new Vector3(Random.Range(18, 127), 0, Random.Range(18,127));
     }
 
 
@@ -23,21 +25,21 @@ public class playerMovement : MonoBehaviour
     void Update()
     {
 
-        if (transform.position.x < 20)
+        if (transform.position.x < 15)
         {
-            transform.position = new Vector3(20, transform.position.y, transform.position.z);
+            transform.position = new Vector3(15, transform.position.y, transform.position.z);
         }
-        else if (transform.position.z < 20)
+        else if (transform.position.z < 15)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, 20);
+            transform.position = new Vector3(transform.position.x, transform.position.y, 15);
         }
-        else if (transform.position.x > 110)
+        else if (transform.position.x > 130)
         {
-            transform.position = new Vector3(110, transform.position.y, transform.position.z);
+            transform.position = new Vector3(130, transform.position.y, transform.position.z);
         }
-        else if (transform.position.z > 110)
+        else if (transform.position.z > 130)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, 110);
+            transform.position = new Vector3(transform.position.x, transform.position.y, 130);
         }
 
         cameraPos();

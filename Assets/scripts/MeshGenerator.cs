@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
+
 
 public class MeshGenerator : MonoBehaviour
 {
 
-    //public float noise;
-    public GameObject grass;
+    public enemyController enemy;
+
 
     //these are used to draw the mesh on screen.
     public MeshFilter meshFilter;
@@ -28,9 +31,12 @@ public class MeshGenerator : MonoBehaviour
 
     public GameObject tree;
     public GameObject stump;
+    public GameObject grass1;
+    public GameObject grass2;
+    
 
 
-     GameObject[] objects;
+    GameObject[] objects;
 
     //variables used to create random spacing between trees.
 
@@ -47,6 +53,7 @@ public class MeshGenerator : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
+        
 
         randPlacementX = new int[]
         {
@@ -62,10 +69,12 @@ public class MeshGenerator : MonoBehaviour
         {
             tree,
             stump,
-            grass
+            grass1,
+            grass2
         };
 
-        
+ 
+
 
         //creates a new terrain
         terrainData = GenerateTerrainMesh(Map, randMultiplier);
@@ -76,12 +85,20 @@ public class MeshGenerator : MonoBehaviour
         //adds trees to the screen
 
         objectList = new List<GameObject>();
-
+        
 
         //creates the mesh of the terrain.
         mesh = terrainData.createMesh();
 
+
+    
+     
+
+            
+        
     }
+
+    
 
 
     public void drawMesh(MeshData meshdata)
@@ -116,22 +133,18 @@ public class MeshGenerator : MonoBehaviour
                 meshData.vertices[vertexIndex] = new Vector3(j, 0, i);
                 //Debug.Log("terrain y " + meshData.vertices[vertexIndex].y);
                 offset = new Vector3(Random.Range(4f, 7f), 0, Random.Range(4f, 7f));
-                Vector3 grassoffset = new Vector3(Random.Range(1f, 3f), 0, Random.Range(1f, 3f));
+                Vector3 grassoffset = new Vector3(Random.Range(2f, 4f), 0, Random.Range(2f, 4f));
+
 
                 //make sure the position is set properly for the trees on the terrain
-              
-                Vector3 grassposition = new Vector3(j * 2f, 0, i * 2f);
+
                 if (i <= 35 && j <= 35)
                 {
-                    Vector3 position = new Vector3(j * 4f, 0, i * 4f);
-                    objectList.Add(Instantiate(objects[0], position + offset, Quaternion.identity));
+
+                    objectList.Add(Instantiate(objects[0], (meshData.vertices[vertexIndex] *4) + offset, Quaternion.identity));
                    
                 }
-                if (i <= 120 && j <= 120)
-                {
-                    objectList.Add(Instantiate(objects[2], grassposition + grassoffset, Quaternion.identity));
-                    //Debug.Log("grass y " + grassposition.y);
-                }
+                
                 if (i < 1 && j < 1)
                 {
                     for (int k = 0; k < randPlacementX.GetLength(0); k++)
@@ -139,6 +152,8 @@ public class MeshGenerator : MonoBehaviour
                         objectList.Add(Instantiate(objects[1], new Vector3(randPlacementX[k], 0, randPlacementY[k]) + offset, Quaternion.identity));
                     }
                 }
+
+                objectList.Add(Instantiate(objects[Random.Range(2,4)], (meshData.vertices[vertexIndex] * 2.5f + grassoffset), Quaternion.identity));
                 
 
                 //calculates the terrain within the map size (stops it from generating it outside of scope)
