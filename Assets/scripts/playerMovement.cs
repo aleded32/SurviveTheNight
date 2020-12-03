@@ -10,7 +10,7 @@ public class playerMovement : MonoBehaviour
     public GameObject cameraObj;
     public GameObject torchObj;
     float horizontal, vertical;
-    bool isTorchOn = true;
+    public bool isTorchOn;
 
     public void Start()
     {
@@ -18,13 +18,14 @@ public class playerMovement : MonoBehaviour
         MaxY = 45;
 
         transform.position = new Vector3(Random.Range(18, 127), 0, Random.Range(18,127));
+        StartTorch();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-
+        
         if (transform.position.x < 15)
         {
             transform.position = new Vector3(15, transform.position.y, transform.position.z);
@@ -62,20 +63,10 @@ public class playerMovement : MonoBehaviour
         {
             back();
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            if (isTorchOn)
-            {
-                torchObj.GetComponent<Light>().intensity = 2f;
-                isTorchOn = false;
-            }
-            else if(!isTorchOn)
-            {
-                torchObj.GetComponent<Light>().intensity = 0.0f;
-                isTorchOn = true;
-            }
-            
-           
+
+            torch();           
         }
 
         Cursor.visible = false;
@@ -128,5 +119,30 @@ public class playerMovement : MonoBehaviour
         return new Vector3(horizontal, vertical);
 
     }
+
+    void torch()
+    {
+        if (!isTorchOn)
+        {
+            torchObj.GetComponent<Light>().intensity = 2f;
+            isTorchOn = true;
+        }
+        else if (isTorchOn)
+        {
+            torchObj.GetComponent<Light>().intensity = 0.0f;
+            isTorchOn = false;
+        }
+    }
+
+    void StartTorch()
+    {
+        if (!isTorchOn)
+        {
+            torchObj.GetComponent<Light>().intensity = 0f;
+            isTorchOn = false;
+        }
+        
+    }
+
 
 }

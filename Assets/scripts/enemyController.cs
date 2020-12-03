@@ -6,6 +6,7 @@ public class enemyController : MonoBehaviour
 {
     public GameObject enemy;
     public List<GameObject> enemies;
+    
 
     void Start()
     {

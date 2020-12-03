@@ -51,7 +51,7 @@ public class MeshGenerator : MonoBehaviour
     public List<GameObject> objectList;
 
     // Start is called before the first frame update
-    public void Start()
+    public void Awake()
     {
         
 
@@ -73,9 +73,9 @@ public class MeshGenerator : MonoBehaviour
             grass2
         };
 
- 
 
 
+        objectList = new List<GameObject>();
         //creates a new terrain
         terrainData = GenerateTerrainMesh(Map, randMultiplier);
 
@@ -84,15 +84,15 @@ public class MeshGenerator : MonoBehaviour
 
         //adds trees to the screen
 
-        objectList = new List<GameObject>();
+        
         
 
         //creates the mesh of the terrain.
         mesh = terrainData.createMesh();
 
 
-    
-     
+
+       
 
             
         
@@ -113,8 +113,8 @@ public class MeshGenerator : MonoBehaviour
         //gets the width and the height of the map.
         int width = MapSize.GetLength(0); // x
         int height = MapSize.GetLength(1); // z
-        
 
+        
 
         //calls a new meshData to be used to generate the mesh to map.
         MeshData meshData = new MeshData(width, height);
@@ -141,7 +141,7 @@ public class MeshGenerator : MonoBehaviour
                 if (i <= 35 && j <= 35)
                 {
 
-                    objectList.Add(Instantiate(objects[0], (meshData.vertices[vertexIndex] *4) + offset, Quaternion.identity));
+                    Instantiate(objects[0], (meshData.vertices[vertexIndex] *4) + offset, Quaternion.identity);
                    
                 }
                 
@@ -153,8 +153,8 @@ public class MeshGenerator : MonoBehaviour
                     }
                 }
 
-                objectList.Add(Instantiate(objects[Random.Range(2,4)], (meshData.vertices[vertexIndex] * 2.5f + grassoffset), Quaternion.identity));
-                
+               Instantiate(objects[Random.Range(2,4)], (meshData.vertices[vertexIndex] * 2.5f + grassoffset), Quaternion.identity);
+               
 
                 //calculates the terrain within the map size (stops it from generating it outside of scope)
                 if (j < width - 1 && i < height - 1)
