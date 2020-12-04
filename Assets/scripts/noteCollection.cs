@@ -8,7 +8,7 @@ public class noteCollection : MonoBehaviour
 
     public GameObject[] noteArray;
     int[] layer;
-    int[] layerMask;
+    List<int> layerMask;
     public float raycastLength;
     public MeshGenerator meshGen;
 
@@ -30,7 +30,7 @@ public class noteCollection : MonoBehaviour
             16
         };
 
-        layerMask = new int[]
+        layerMask = new List<int>
         {
             1 << 12,
             1 << 13,
@@ -55,69 +55,27 @@ public class noteCollection : MonoBehaviour
     {
         Debug.Log(notesCollected);
         RaycastHit hit;
+        for (int i = 0; i < layerMask.Count; i++)
+        {
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, raycastLength, layerMask[i]))
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastLength, Color.red);
+                note = hit.transform;
+                gNotes = note.GetChild(0).gameObject;
+                if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Bbutton"))
+                {
+                    gNotes.SetActive(false);
+                    notesCollected++;
+                    layerMask.Remove(layerMask[i]);
+                }
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, raycastLength, layerMask[0]))
-        {
-           Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastLength, Color.red);
-           note = hit.transform;
-           gNotes = note.GetChild(0).gameObject;
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                gNotes.SetActive(false);
-                notesCollected++;
             }
-                
-        }
-        else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, raycastLength, layerMask[1]))
-        {
-          Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastLength, Color.red);
-           note = hit.transform;
-           gNotes = note.GetChild(0).gameObject;
-            if (Input.GetKeyDown(KeyCode.E) && !isNoteCollected(gNotes))
+            else
             {
-                gNotes.SetActive(false);
-                notesCollected++;
-            }
-               
-
-        }
-        else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, raycastLength, layerMask[2]))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastLength, Color.red);
-            note = hit.transform;
-            gNotes = note.GetChild(0).gameObject;
-            if (Input.GetKeyDown(KeyCode.E) && !isNoteCollected(gNotes))
-            {
-                gNotes.SetActive(false);
-                notesCollected++;
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastLength, Color.white);
             }
         }
-        else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, raycastLength, layerMask[3]))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastLength, Color.red);
-            note = hit.transform;
-            gNotes = note.GetChild(0).gameObject;
-            if (Input.GetKeyDown(KeyCode.E) && !isNoteCollected(gNotes))
-            {
-                gNotes.SetActive(false);
-                notesCollected++;
-            }
-        }
-        else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, raycastLength, layerMask[4]))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastLength, Color.red);
-            note = hit.transform;
-            gNotes = note.GetChild(0).gameObject;
-            if (Input.GetKeyDown(KeyCode.E) && !isNoteCollected(gNotes))
-            {
-                gNotes.SetActive(false);
-                notesCollected++;
-            }
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastLength, Color.white);
-        }
+        
 
     }
 

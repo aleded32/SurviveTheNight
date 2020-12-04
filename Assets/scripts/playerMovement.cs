@@ -11,6 +11,9 @@ public class playerMovement : MonoBehaviour
     public GameObject torchObj;
     float horizontal, vertical;
     public bool isTorchOn;
+    public float Xsensitivity;
+    public float Ysensitivity;
+
 
     public void Start()
     {
@@ -25,7 +28,9 @@ public class playerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        moveJoysticks();
+
+
         if (transform.position.x < 15)
         {
             transform.position = new Vector3(15, transform.position.y, transform.position.z);
@@ -63,15 +68,26 @@ public class playerMovement : MonoBehaviour
         {
             back();
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Abutton"))
         {
 
             torch();           
         }
 
+        
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         playerRotate();
+
+    }
+
+    void moveJoysticks()
+    {
+        float xJoy = Input.GetAxis("HorizontalLJ") * velocity;
+        float zJoy = Input.GetAxis("VerticalLJ") * velocity;
+
+        transform.Translate(xJoy, 0, zJoy);
 
     }
 
@@ -104,19 +120,33 @@ public class playerMovement : MonoBehaviour
 
     void playerRotate()
     {
-        transform.rotation = Quaternion.Euler(0, rotations().x, 0);
-        cameraObj.transform.rotation = Quaternion.Euler(rotations().y, rotations().x, 0);
-        torchObj.transform.rotation = Quaternion.Euler(rotations().y, rotations().x, 0);
+        transform.rotation = Quaternion.Euler(0, rotations().y, 0);
+        cameraObj.transform.rotation = Quaternion.Euler(rotations());
+        torchObj.transform.rotation = Quaternion.Euler(rotations());
+        cameraObj.transform.rotation = Quaternion.Euler(rotationsJoysticks());
+        torchObj.transform.rotation = Quaternion.Euler(rotationsJoysticks());
+
     }
 
     Vector3 rotations()
     {
-        horizontal += 50.0f * Input.GetAxis("Mouse X") * Time.deltaTime;
-        vertical -= 50.0f * Input.GetAxis("Mouse Y") * Time.deltaTime;
+        horizontal += Xsensitivity * Input.GetAxis("Horizontal") * Time.deltaTime;
+        vertical -= Ysensitivity * Input.GetAxis("Vertical") * Time.deltaTime;
 
         vertical = Mathf.Clamp(vertical, MinY, MaxY);
 
-        return new Vector3(horizontal, vertical);
+        return new Vector3(vertical, horizontal,0);
+
+    }
+
+    Vector3 rotationsJoysticks()
+    {
+        horizontal += Xsensitivity * Input.GetAxisRaw("HorizontalRJ") * Time.deltaTime;
+        vertical -= Ysensitivity * Input.GetAxisRaw("VerticalRJ") * Time.deltaTime;
+
+        vertical = Mathf.Clamp(vertical, MinY, MaxY);
+
+        return new Vector3(vertical, horizontal, 0);
 
     }
 
