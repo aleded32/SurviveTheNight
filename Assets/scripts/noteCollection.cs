@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class noteCollection : MonoBehaviour
 {
@@ -75,8 +75,11 @@ public class noteCollection : MonoBehaviour
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycastLength, Color.white);
             }
         }
-        
 
+        if (notesCollected >= MaxNotesCollected)
+        {
+            SceneManager.LoadScene("winScreen", LoadSceneMode.Single);
+        }
     }
 
 

@@ -13,7 +13,8 @@ public class playerMovement : MonoBehaviour
     public bool isTorchOn;
     public float Xsensitivity;
     public float Ysensitivity;
-
+    public bool isPaused;
+    public GameObject menuSystem;
 
     public void Start()
     {
@@ -22,6 +23,8 @@ public class playerMovement : MonoBehaviour
 
         transform.position = new Vector3(Random.Range(18, 127), 0, Random.Range(18,127));
         StartTorch();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
 
@@ -74,10 +77,11 @@ public class playerMovement : MonoBehaviour
             torch();           
         }
 
-        
+        isPaused = menuSystem.GetComponent<pauseMenu>().pauseOn;
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        
+        
+        
         playerRotate();
 
     }
@@ -154,7 +158,7 @@ public class playerMovement : MonoBehaviour
     {
         if (!isTorchOn)
         {
-            torchObj.GetComponent<Light>().intensity = 2f;
+            torchObj.GetComponent<Light>().intensity = 4f;
             isTorchOn = true;
         }
         else if (isTorchOn)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class enemyMovement : MonoBehaviour
 {
@@ -31,6 +32,13 @@ public class enemyMovement : MonoBehaviour
 
 
         moveEnemy();
+
+        if (isGameOver() == true)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene("gameOver", LoadSceneMode.Single);
+        }
         
     }
 
@@ -107,7 +115,7 @@ public class enemyMovement : MonoBehaviour
 
     bool isGameOver()
     {
-        if (Vector3.Distance(player.transform.position, player.transform.position) <= 2f)
+        if (Vector3.Distance(player.transform.position, transform.position) <= 2f)
         {
             return true;
 

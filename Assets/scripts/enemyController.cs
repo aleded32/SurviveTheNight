@@ -6,18 +6,40 @@ public class enemyController : MonoBehaviour
 {
     public GameObject enemy;
     public List<GameObject> enemies;
-    
+    float timer = 0;
+    bool enemySpawned = false;
 
     void Start()
     {
         
         enemies = new List<GameObject>();
         AddEnemy(enemy);
+        
 
-        Debug.Log(enemies.Count);
 
-        Instantiate(enemies[0], spawnPos(), Quaternion.identity);
+    }
 
+    private void Update()
+    {
+        timer -= Time.deltaTime;
+
+        if (timer <= -30 && enemySpawned == false)
+        {
+            Instantiate(enemies[0], spawnPos(), Quaternion.identity);
+            timer = 0;
+            enemySpawned = true;
+        }
+        else if (enemySpawned == true)
+        {
+            timer = 0;
+        }
+        else if (enemySpawned == false && timer > -30)
+        {
+            timer -= Time.deltaTime;
+            
+        }
+
+        Debug.Log(timer);
     }
 
     List<GameObject> AddEnemy(GameObject enemy)
