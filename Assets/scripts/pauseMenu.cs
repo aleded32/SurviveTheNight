@@ -8,6 +8,11 @@ public class pauseMenu : MonoBehaviour
     public bool pauseOn = false;
     public GameObject pause;
 
+    private void Start()
+    {
+        Time.timeScale = 1f;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("startbutton"))
@@ -42,5 +47,12 @@ public class pauseMenu : MonoBehaviour
             Cursor.visible = false;
         }
         
+    }
+
+
+    public void quitButton()
+    {
+        
+        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
 }
