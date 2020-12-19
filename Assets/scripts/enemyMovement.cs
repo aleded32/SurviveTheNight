@@ -14,7 +14,8 @@ public class enemyMovement : MonoBehaviour
     public Animator An;
     float enemyRadius;
     float speed;
-    
+    AudioSource audioEnemy;
+
 
     public void Start()
     {
@@ -28,8 +29,8 @@ public class enemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
+        
+        audioEnemy = GetComponent<AudioSource>();
 
         moveEnemy();
 
@@ -50,11 +51,11 @@ public class enemyMovement : MonoBehaviour
 
         if (player.GetComponent<playerMovement>().isTorchOn == false)
         {
-            enemyRadius = 4f;
+            enemyRadius = 8f;
         }
         else
         {
-            enemyRadius = 8f;
+            enemyRadius = 12f;
         }
 
         if (checkRange() == false)
@@ -63,14 +64,20 @@ public class enemyMovement : MonoBehaviour
             currentPos = Vector3.MoveTowards(currentPos, target, speed * Time.deltaTime);
             transform.position = currentPos;
             transform.LookAt(target);
+            if(audioEnemy.isPlaying)
+                   audioEnemy.Stop();
         }
         else if (checkRange() == true)
         {
-            speed = 4f;
+            speed = 3f;
             currentPos = Vector3.MoveTowards(currentPos, player.transform.position, speed * Time.deltaTime);
             transform.position = currentPos;
             transform.LookAt(player.transform.position);
+            if(!audioEnemy.isPlaying)
+                   audioEnemy.Play();
         }
+
+        
 
        
 
@@ -82,7 +89,7 @@ public class enemyMovement : MonoBehaviour
         timeToMove -= Time.deltaTime;
 
 
-        Debug.Log(enemyRadius);
+
        
     }
 
@@ -117,6 +124,7 @@ public class enemyMovement : MonoBehaviour
     {
         if (Vector3.Distance(player.transform.position, transform.position) <= 2f)
         {
+            audioEnemy.Stop();
             return true;
 
         }

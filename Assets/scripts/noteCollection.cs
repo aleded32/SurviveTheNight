@@ -53,7 +53,7 @@ public class noteCollection : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log(notesCollected);
+       
         RaycastHit hit;
         for (int i = 0; i < layerMask.Count; i++)
         {

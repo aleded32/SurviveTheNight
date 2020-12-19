@@ -15,6 +15,8 @@ public class playerMovement : MonoBehaviour
     public float Ysensitivity;
     public bool isPaused;
     public GameObject menuSystem;
+    public AudioSource[] sources;
+    bool isMoving;
 
     public void Start()
     {
@@ -25,6 +27,11 @@ public class playerMovement : MonoBehaviour
         StartTorch();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        
+        isMoving = false;
+
+        Xsensitivity = PlayerPrefs.GetFloat("senX");
+        Ysensitivity = PlayerPrefs.GetFloat("senY");
     }
 
 
@@ -57,41 +64,76 @@ public class playerMovement : MonoBehaviour
         velocity = moveSpeed * Time.deltaTime;
         if (Input.GetKey(KeyCode.W))
         {
+            isMoving = true;
             forward();
         }
         if (Input.GetKey(KeyCode.A))
         {
+            isMoving = true;
             left();
         }
         if (Input.GetKey(KeyCode.D))
         {
+            isMoving = true;
             right();
         }
         if (Input.GetKey(KeyCode.S))
         {
+            isMoving = true;
             back();
         }
+       
+
+
         if (Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Abutton"))
         {
 
-            torch();           
+            torch();
         }
+        
 
         isPaused = menuSystem.GetComponent<pauseMenu>().pauseOn;
 
+        sound(sources[0], isMoving);
         
-        
-        
+
+
+
         playerRotate();
 
     }
 
+    void sound(AudioSource source, bool boolean)
+    {
+        if (boolean == true)
+        {
+            if (source.isPlaying == false)
+            {
+                source.Play();
+            }
+
+        }
+        else
+        {
+            source.Stop();
+        }
+    }
+
     void moveJoysticks()
     {
+        
         float xJoy = Input.GetAxis("HorizontalLJ") * velocity;
         float zJoy = Input.GetAxis("VerticalLJ") * velocity;
-
         transform.Translate(xJoy, 0, zJoy);
+
+        if (xJoy > 0 || zJoy > 0)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
 
     }
 

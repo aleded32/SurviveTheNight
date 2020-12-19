@@ -33,13 +33,9 @@ public class enemyController : MonoBehaviour
         {
             timer = 0;
         }
-        else if (enemySpawned == false && timer > -30)
-        {
-            timer -= Time.deltaTime;
-            
-        }
+        
 
-        Debug.Log(timer);
+       
     }
 
     List<GameObject> AddEnemy(GameObject enemy)
