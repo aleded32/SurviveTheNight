@@ -18,6 +18,7 @@ public class playerMovement : MonoBehaviour
     public AudioSource[] sources;
     bool isMoving;
 
+  
     public void Start()
     {
         MinY = -45;
@@ -30,8 +31,17 @@ public class playerMovement : MonoBehaviour
         
         isMoving = false;
 
-        Xsensitivity = PlayerPrefs.GetFloat("senX");
-        Ysensitivity = PlayerPrefs.GetFloat("senY");
+        if (PlayerPrefs.GetFloat("senX") != 0 && PlayerPrefs.GetFloat("senY") != 0)
+        {
+            Xsensitivity = PlayerPrefs.GetFloat("senX");
+            Ysensitivity = PlayerPrefs.GetFloat("senY");
+        }
+        else
+        {
+            Xsensitivity = 2;
+            Ysensitivity = 2;
+        }
+        
     }
 
 
@@ -187,8 +197,8 @@ public class playerMovement : MonoBehaviour
 
     Vector3 rotationsJoysticks()
     {
-        horizontal += Xsensitivity * Input.GetAxisRaw("HorizontalRJ") * Time.deltaTime;
-        vertical -= Ysensitivity * Input.GetAxisRaw("VerticalRJ") * Time.deltaTime;
+        horizontal += (Xsensitivity * 19) * Input.GetAxis("HorizontalRJ") * Time.deltaTime;
+        vertical -= (Ysensitivity * 10) * Input.GetAxis("VerticalRJ") * Time.deltaTime;
 
         vertical = Mathf.Clamp(vertical, MinY, MaxY);
 
